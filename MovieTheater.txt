@@ -1,0 +1,202 @@
+Theatre Management System using Database Management System:
+
+Program:
+
+Create database MovieBooking;
+Use MovieBooking;
+
+Creating Tables:
+Create table halls (
+	hall_id int,
+	class varchar(10),
+	no_of_seats int,
+	primary key(hall_id,class));
+
+Create table movies (
+	movie_id int primary key,
+	movie_name varchar(40),
+	length int,
+	language varchar(10),
+	show_start date,
+	show_end date);
+
+Create table price_listing (
+	price_id int primary key,
+	type varchar(3),
+	day varchar(10),
+	price int);
+
+Create table shows (
+	show_id int primary key,
+	movie_id int,
+	hall_id int,
+	type varchar(3),
+	time int,
+	Date date,
+	price_id int, 
+	foreign key(movie_id) references movies(movie_id),
+	foreign key(hall_id) references halls(hall_id),
+	foreign key(price_id) references price_listing(price_id) on update cascade);
+
+Create table booked_tickets (
+	ticket_no int,
+	show_id int,
+	seat_no int,
+	primary key(ticket_no,show_id), 
+	foreign key(show_id) references shows(show_id) on delete cascade);
+
+Create table types(
+	movie_id int primary key,
+	4DX varchar(3),
+	3D varchar(3),
+	2D varchar(3),
+	foreign key(movie_id) references movies(movie_id) on delete cascade); 
+
+insert into halls values
+(1, "gold", 35), 
+(1, "standard", 75), 
+(2, "gold", 27), 
+(2, "standard", 97), 
+(3, "gold", 26), 
+(3, "standard", 98);
+
+insert into price_listing values
+(1, "2D", "Monday", 210),
+(2, "3D", "Monday", 295),
+(3, "4DX", "Monday", 380),
+(4, "2D", "Tuesday", 210),
+(5, "3D", "Tuesday", 295),
+(6, "4DX", "Tuesday", 380),
+(7, "2D", "Wednesday", 210),
+(8, "3D", "Wednesday", 295),
+(9, "4DX", "Wednesday", 380),
+(10, "2D", "Thursday", 210),
+(11, "3D", "Thursday", 295),
+(12, "4DX", "Thursday", 380),
+(13, "2D", "Friday", 320),
+(14, "3D", "Friday", 335),
+(15, "4DX", "Friday", 495),
+(16, "2D", "Saturday", 320),
+(17, "3D", "Saturday", 335),
+(18, "4DX", "Saturday", 495),
+(19, "2D", "Sunday", 320),
+(20, "3D", "Sunday", 335),
+(21, "4DX", "Sunday", 495);
+
+insert into movies values(1,"CAPTAIN AMERICA",2,"English","2020-12-20","2020-12-27"),
+(2,"SHANG-CHI",2,"English","2020-01-15","2020-01-22"),
+(3,"KGF-2",3,"Kannada","2020-03-05","2020-03-12"),
+(4,"MAJOR",2,"Hindi","2020-05-27","2020-06-02"),
+(5,"CHARLIE777",3,"Kannada","2020-07-13","2020-07-20");
+
+insert into shows values(11,1,2,"3D",12,"2020-01-15",2),
+(12,3,3,"2D",3,"2020-03-05",4),
+(13,2,1,"4DX",6,"2020-12-20",12),
+ 
+
+insert into booked_tickets values(1001,11,35),
+(1002,11,36),
+(1003,11,24),
+(1004,11,30),
+(2001,12,10),
+(2002,12,11),
+(2003,12,20),
+(3001,13,07),
+(3002,13,19),
+(3003,13,20);
+,
+insert into types values(1,"yes","yes","no"),
+(2,"no","yes","yes"),
+(3,"no","no","yes"),
+(4,"no","no","yes"),
+(5,"no","yes","yes");
+
+OUTPUT:
+
+Select * from halls
+    -> ;
++---------+----------+-------------+
+| hall_id | class    | no_of_seats |
++---------+----------+-------------+
+|       1 | gold     |          35 |
+|       1 | standard |          75 |
+|       2 | gold     |          27 |
+|       2 | standard |          97 |
+|       3 | gold     |          26 |
+|       3 | standard |          98 |
++---------+----------+-------------+
+
+Select * from price_listing;
++----------+------+-----------+-------+
+| price_id | type | day       | price |
++----------+------+-----------+-------+
+|        1 | 2D   | Monday    |   210 |
+|        2 | 3D   | Monday    |   295 |
+|        3 | 4DX  | Monday    |   380 |
+|        4 | 2D   | Tuesday   |   210 |
+|        5 | 3D   | Tuesday   |   295 |
+|        6 | 4DX  | Tuesday   |   380 |
+|        7 | 2D   | Wednesday |   210 |
+|        8 | 3D   | Wednesday |   295 |
+|        9 | 4DX  | Wednesday |   380 |
+|       10 | 2D   | Thursday  |   210 |
+|       11 | 3D   | Thursday  |   295 |
+|       12 | 4DX  | Thursday  |   380 |
+|       13 | 2D   | Friday    |   320 |
+|       14 | 3D   | Friday    |   335 |
+|       15 | 4DX  | Friday    |   495 |
+|       16 | 2D   | Saturday  |   320 |
+|       17 | 3D   | Saturday  |   335 |
+|       18 | 4DX  | Saturday  |   495 |
+|       19 | 2D   | Sunday    |   320 |
+|       20 | 3D   | Sunday    |   335 |
+|       21 | 4DX  | Sunday    |   495 |
++----------+------+-----------+-------+
+
+Select * from movies;
++----------+-----------------+--------+----------+------------+------------+
+| movie_id | movie_name      | length | language | show_start | show_end   |
++----------+-----------------+--------+----------+------------+------------+
+|        1 | CAPTAIN AMERICA |      2 | English  | 2020-12-20 | 2020-12-27 |
+|        2 | SHANG-CHI       |      2 | English  | 2020-01-15 | 2020-01-22 |
+|        3 | KGF-2           |      3 | Kannada  | 2020-03-05 | 2020-03-12 |
+|        4 | MAJOR           |      2 | Hindi    | 2020-05-27 | 2020-06-02 |
+|        5 | CHARLIE777      |      3 | Kannada  | 2020-07-13 | 2020-07-20 |
++----------+-----------------+--------+----------+------------+------------+
+
+Select * from shows;
++---------+----------+---------+------+------+------------+----------+
+| show_id | movie_id | hall_id | type | time | Date       | price_id |
++---------+----------+---------+------+------+------------+----------+
+|      11 |        1 |       2 | 3D   |   12 | 2020-01-15 |        2 |
+|      12 |        3 |       3 | 2D   |    3 | 2020-03-05 |        4 |
+|      13 |        2 |       1 | 4DX  |    6 | 2020-12-20 |       12 |
++---------+----------+---------+------+------+------------+----------+
+
+select *from booked_tickets;
++-----------+---------+---------+
+| ticket_no | show_id | seat_no |
++-----------+---------+---------+
+|      1001 |      11 |      35 |
+|      1002 |      11 |      36 |
+|      1003 |      11 |      24 |
+|      1004 |      11 |      30 |
+|      2001 |      12 |      10 |
+|      2002 |      12 |      11 |
+|      2003 |      12 |      20 |
+|      3001 |      13 |       7 |
+|      3002 |      13 |      19 |
+|      3003 |      13 |      20 |
++-----------+---------+---------+
+
+select *from types;
++----------+------+------+------+
+| movie_id | 4DX  | 3D   | 2D   |
++----------+------+------+------+
+|        1 | yes  | yes  | no   |
+|        2 | no   | yes  | yes  |
+|        3 | no   | no   | yes  |
+|        4 | no   | no   | yes  |
+|        5 | no   | yes  | yes  |
++----------+------+------+------+
+
